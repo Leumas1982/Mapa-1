@@ -1,0 +1,62 @@
+import kivy 
+import kivy_garden
+
+from kivy_garden.mapview import MapView, MapMarker
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.properties import ObjectProperty
+
+class Root(BoxLayout):
+    map = ObjectProperty()
+    def goto(self, x, y, zoom):
+        self.map.zoom = zoom
+        self.map.center_on(x,y)
+    def point(self, x, y):
+        marker = MapMarker(lon=y, lat=x, source='marker.png')
+        self.map.add_marker(marker)
+    pass
+
+
+class MapViewApp(App):
+    pass
+    
+
+
+    
+    
+if __name__ == '__main__':
+    MapViewApp().run()
+    
+-------------------------------------------------------------------------- 
+confi kivy 
+Root:
+    map: map
+    BoxLayout:
+        orientation: 'vertical'
+        MapView:
+            id: map
+            zoom: 11
+            lat: 20.676667
+            lon:-103.3475
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: .25
+            Button:
+                text:'Ir a Guadalajara'
+                on_release: app.root.goto(20.676667, -103.3475, 11)   
+            Button:
+                text:'Ir a Chilangolandia'
+                on_release: app.root.goto(19.419444, -99.145556, 11)  
+            Button:
+                text:'Ir a Vancuver'
+                on_release: app.root.goto(49.260833, -123.113889, 11)
+            Button:
+                text:'Ir a Tonayork'
+                on_release: app.root.goto(20.616667, -103.216667, 15)  
+        BoxLayout:
+            orientation:'horizontal'
+            size_hint_y: .25
+            Button:
+                text: "Agregar marcador"
+                on_release: app.root.point(20.676667, -103.3475)
+
